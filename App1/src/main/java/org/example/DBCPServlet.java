@@ -17,15 +17,20 @@ import java.util.Map;
 
 @WebServlet("/dbcp")
 public class DBCPServlet extends HttpServlet {
+    BasicDataSource dataSource;
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        BasicDataSource dataSource = new BasicDataSource();
+    public void init() throws ServletException {
+        dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/eventdb");
         dataSource.setUsername("root");
         dataSource.setPassword("12345678");
         dataSource.setInitialSize(50);
         dataSource.setMaxTotal(100);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             Connection connection=dataSource.getConnection();
@@ -51,13 +56,6 @@ public class DBCPServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/eventdb");
-        dataSource.setUsername("root");
-        dataSource.setPassword("12345678");
-        dataSource.setInitialSize(50);
-        dataSource.setMaxTotal(100);
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> event = mapper.readValue(req.getInputStream(), Map.class);
