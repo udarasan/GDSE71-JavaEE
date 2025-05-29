@@ -128,11 +128,10 @@
             alert("Please enter Event ID to delete.");
             return;
         }
+        //query string parameter
         $.ajax({
-            url: apiUrl,
+            url: "http://localhost:8080/App1_Web_exploded/event?eid="+eid,
             method: 'DELETE',
-            contentType: 'application/json',
-            data: JSON.stringify({ eid }),
             success: function (response) {
                 alert('Event deleted');
                 $('#getAllEvents').click();

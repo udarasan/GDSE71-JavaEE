@@ -18,8 +18,6 @@ import java.util.Map;
 public class EventServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -52,10 +50,6 @@ public class EventServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> event = mapper.readValue(req.getInputStream(), Map.class);
 
@@ -83,9 +77,6 @@ public class EventServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> event = mapper.readValue(req.getInputStream(), Map.class);
@@ -113,21 +104,15 @@ public class EventServlet extends HttpServlet {
     }
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-        ObjectMapper mapper = new ObjectMapper();
+        /*ObjectMapper mapper = new ObjectMapper();
         Map<String, String> body = mapper.readValue(req.getInputStream(), Map.class);
-        String eid = body.get("eid");
+        String eid = body.get("eid");*/
+        String eid = req.getParameter("eid");
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -138,7 +123,8 @@ public class EventServlet extends HttpServlet {
 
             int rows = stmt.executeUpdate();
             resp.setContentType("application/json");
-            mapper.writeValue(resp.getWriter(), rows);
+            //mapper.writeValue(resp.getWriter(), rows);
+            resp.getWriter().write("success");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
