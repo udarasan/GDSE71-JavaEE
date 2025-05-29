@@ -18,6 +18,9 @@ import java.util.Map;
 public class EventServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection= DriverManager.getConnection
@@ -49,6 +52,10 @@ public class EventServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> event = mapper.readValue(req.getInputStream(), Map.class);
 
@@ -76,6 +83,9 @@ public class EventServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> event = mapper.readValue(req.getInputStream(), Map.class);
@@ -111,6 +121,10 @@ public class EventServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> body = mapper.readValue(req.getInputStream(), Map.class);
         String eid = body.get("eid");
